@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Productos en Tiempo Real</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+    <script>
+        const socket = io();
+
+        socket.on('actualizarLista', function(products) {
+            const list = document.getElementById('product-list');
+            list.innerHTML = '';
+            products.forEach(product => {
+                list.innerHTML += `<li>${product.title} - $${product.price} <button onclick="eliminarProducto('${product._id}')">Eliminar</button></li>`;
+            });
+        });
+
+        function agregarProducto() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const code = document.getElementById('code').value;
+            const price = parseFloat(document.getElementById('price').value);
+            const status = document.getElementById('status').checked;
+            const stock = parseInt(document.getElementById('stock').value, 10);
+            const category = document.getElementById('category').value;
+
+            socket.emit('nuevoProducto', { title, description, code, price, status, stock, category });
+        }
+
+        function eliminarProducto(id) {
+            socket.emit('eliminarProducto', id);
+        }
+    </script>
+</head>
+<body>
+    <h1>Lista de Productos en Tiempo Real</h1>
+    
+    <input type="text" id="title" placeholder="Título del Producto">
+    <input type="text" id="description" placeholder="Descripción del Producto">
+    <input type="text" id="code" placeholder="Código del Producto">
+    <input type="number" id="price" placeholder="Precio">
+    <input type="checkbox" id="status"> Estado
+    <input type="number" id="stock" placeholder="Stock">
+    <input type="text" id="category" placeholder="Categoría">
+    <button onclick="agregarProducto()">Agregar Producto</button>
+    
+    <ul id="product-list"></ul>
+</body>
+</html>
