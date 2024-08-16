@@ -1,4 +1,4 @@
-import Product from '../../dao/models/Product.js';
+import Product from '../models/Product.js';
 
 class ProductManager {
   async getAllProducts() {
@@ -41,7 +41,7 @@ class ProductManager {
       typeof product.status === 'boolean' &&
       typeof product.stock === 'number' &&
       typeof product.category === 'string' &&
-      (Array.isArray(product.thumbnails) || product.thumbnails === undefined) 
+      (Array.isArray(product.thumbnails) || product.thumbnails === undefined)
     );
   }
 

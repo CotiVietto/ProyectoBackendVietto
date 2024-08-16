@@ -1,12 +1,13 @@
 import express from 'express';
-import productsRouter from '../src/routes/products.js'; 
-import cartsRouter from '../src/routes/carts.js';
+import productsRouter from './routes/products.js'; 
+import cartsRouter from './routes/carts.js';
+import viewsRouter from './routes/views.js';  // Importa el router de vistas
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import expressHandlebars from 'express-handlebars';
-import ProductManager from '../dao/MongoDB/ProductManager.js'; 
+import ProductManager from './dao/mongoDB/ProductManager.js';
 
 dotenv.config();
 
@@ -14,14 +15,14 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 const hbs = expressHandlebars.create({
-    layoutsDir: './views/layouts',
+    layoutsDir: './src/views/layouts', 
     defaultLayout: 'main',
     extname: '.handlebars'
 });
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-app.set('views', './views');
+app.set('views', './src/views');
 
 const server = createServer(app);
 const io = new Server(server);
@@ -63,16 +64,7 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(express.json());
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
-
-app.get('/realtimeproducts', async (req, res) => {
-    try {
-        const products = await productManager.getAllProducts();
-        res.render('realTimeProducts', { products });
-    } catch (error) {
-        console.error('Error al obtener productos para renderizar:', error);
-        res.status(500).send('Error al obtener productos');
-    }
-});
+app.use('/', viewsRouter);  // Usa el router de vistas para manejar las rutas de las vistas
 
 app.use(express.static('public'));
 

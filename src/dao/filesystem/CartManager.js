@@ -1,18 +1,15 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-// Construye la ruta del archivo de forma dinámica
 const cartsFilePath = path.resolve('src', 'data', 'carts.json');
 
 class CartManager {
   async getAllCarts() {
     try {
-      // Verifica si el archivo existe antes de leer
       await fs.access(cartsFilePath);
       const data = await fs.readFile(cartsFilePath, 'utf-8');
       return JSON.parse(data);
     } catch (error) {
-      // Si el archivo no existe, crea uno vacío
       if (error.code === 'ENOENT') {
         await fs.writeFile(cartsFilePath, JSON.stringify([]));
         return [];
