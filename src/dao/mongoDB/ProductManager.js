@@ -10,6 +10,15 @@ class ProductManager {
     }
   }
 
+  async getProducts(filter, options) {
+    try {
+      return await Product.paginate(filter, options);
+    } catch (error) {
+      console.error('Error al obtener los productos con paginación:', error);
+      throw error;
+    }
+  }
+
   async getProductById(id) {
     try {
       return await Product.findById(id);
@@ -41,7 +50,7 @@ class ProductManager {
       typeof product.status === 'boolean' &&
       typeof product.stock === 'number' &&
       typeof product.category === 'string' &&
-      (Array.isArray(product.thumbnails) || product.thumbnails === undefined) 
+      (Array.isArray(product.thumbnails) || product.thumbnails === undefined)
     );
   }
 
@@ -67,3 +76,4 @@ class ProductManager {
 }
 
 export default ProductManager;
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalles del Producto</title>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+</head>
+<body>
+    <h1>{{product.title}}</h1>
+    <p>Precio: ${{product.price}}</p>
+    <p>Descripción: {{product.description}}</p>
+    
+    <form action="/carts/add-product" method="POST">
+        <label for="cartId">Selecciona un carrito:</label>
+        <select name="cartId" id="cartId">
+            {{#each carts}}
+            <option value="{{this._id}}">Carrito {{this._id}}</option>
+            {{/each}}
+        </select>
+        <input type="hidden" name="productId" value="{{product._id}}">
+        <label for="quantity">Cantidad:</label>
+        <input type="number" id="quantity" name="quantity" min="1" required>
+        <button type="submit">Agregar al Carrito</button>
+    </form>
+    
+    <a href="/products">Volver a la lista de productos</a>
+</body>
+</html>

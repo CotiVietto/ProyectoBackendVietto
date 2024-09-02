@@ -1,26 +1,51 @@
-const Message = require('../models/Message.js');
+import Message from '../../models/Message.js';
 
 class MessageManager {
   async getAllMessages() {
-    return await Message.find().exec();
+    try {
+      return await Message.find().exec();
+    } catch (error) {
+      console.error('Error al obtener los mensajes:', error);
+      return [];
+    }
   }
 
   async getMessageById(id) {
-    return await Message.findById(id).exec();
+    try {
+      return await Message.findById(id).exec();
+    } catch (error) {
+      console.error('Error al obtener el mensaje por ID:', error);
+      return null;
+    }
   }
 
   async createMessage(messageData) {
-    const message = new Message(messageData);
-    return await message.save();
+    try {
+      const message = new Message(messageData);
+      return await message.save();
+    } catch (error) {
+      console.error('Error al crear el mensaje:', error);
+      throw new Error('Error al crear el mensaje');
+    }
   }
 
   async updateMessage(id, updateData) {
-    return await Message.findByIdAndUpdate(id, updateData, { new: true }).exec();
+    try {
+      return await Message.findByIdAndUpdate(id, updateData, { new: true }).exec();
+    } catch (error) {
+      console.error('Error al actualizar el mensaje:', error);
+      return null;
+    }
   }
 
   async deleteMessage(id) {
-    return await Message.findByIdAndDelete(id).exec();
+    try {
+      return await Message.findByIdAndDelete(id).exec();
+    } catch (error) {
+      console.error('Error al eliminar el mensaje:', error);
+      return null;
+    }
   }
 }
 
-module.exports = MessageManager;
+export default MessageManager;

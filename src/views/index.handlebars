@@ -1,14 +1,26 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>Productos</title>
     <link rel="stylesheet" type="text/css" href="/styles/styles.css">
 </head>
 <body>
-    <h1>Lista de Productos</h1>
-    <ul>
-        {{#each products}}
-            <li>{{this.name}} - ${{this.price}}</li>
-        {{/each}}
-    </ul>
+<h1>Lista de Productos</h1>
+<ul>
+    {{#each products}}
+        <li>
+            <a href="/products/{{this._id}}">{{this.title}}</a> - ${{this.price}}
+        </li>
+    {{/each}}
+</ul>
+
+  <div>
+    {{#if prevPage}}
+      <a href="{{prevLink}}">Página Anterior</a>
+    {{/if}}
+    {{#if nextPage}}
+      <a href="{{nextLink}}">Página Siguiente</a>
+    {{/if}}
+  </div>
 </body>
 </html>

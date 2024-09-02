@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carrito</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+
+</head>
+<body>
+    <h1>Carrito {{this.cart.id}}</h1>
+    <ul>
+        {{#each cart.products}}
+            <li>
+                {{this.product.title}} - ${{this.product.price}} - Cantidad: {{this.quantity}}
+                
+            </li>
+        {{/each}}
+    </ul>
+    
+    <a href="/products">Volver a la lista de productos</a>
+</body>
+</html>
